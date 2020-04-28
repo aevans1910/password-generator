@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import { addPassword } from './actions'
 
 class Password extends Component {
     constructor(props) {
@@ -35,9 +37,26 @@ class Password extends Component {
                         value={this.state.password}
                     />
                 </div>
+                <div>
+                    <button onClick={(e) => {
+                        this.props.addPassword(this.state.description, this.state.password)
+                    }}>Save</button>
+                </div>
             </div>
         )
     }
 }
 
-export default Password
+const mapStateToProps = (state) => {
+    return {
+  
+    }
+  }
+  
+  const mapDispatchToProps = () => {
+    return {
+      addPassword
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps())(Password)
