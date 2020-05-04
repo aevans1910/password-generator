@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { addPassword } from './actions'
+import zxcvbn from 'zxcvbn'
 
 class Password extends Component {
     constructor(props) {
         super(props)
-        this.state = { password: 'p@ssw0rd', description: 'description' }
+        this.state = { password: 'p@ssw0rd', description: 'description', score: 0 }
     }
 
     generatePassword() {
@@ -15,6 +16,11 @@ class Password extends Component {
             newPassword += String.fromCharCode(randomNum)
         }
         this.setState({password: newPassword})
+    }
+
+    handlePasswordChange(e) {
+        const result = zxcvbn(e.target.value)
+        this.setState({password: e.target.value, score: result.score})
     }
 
     render() {
@@ -33,10 +39,11 @@ class Password extends Component {
                 </div>
                 <div>
                     <input
-                        onChange={(e) => {this.setState({ password: e.target.value })}}
+                        onChange={this.handlePasswordChange.bind(this)}
                         value={this.state.password}
                     />
                 </div>
+                <p>{this.state.score}</p>
                 <div>
                     <button onClick={(e) => {
                         this.props.addPassword(this.state.description, this.state.password)
