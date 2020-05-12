@@ -15,12 +15,12 @@ class Password extends Component {
             let randomNum =  Math.floor(Math.random()*94+33)
             newPassword += String.fromCharCode(randomNum)
         }
-        this.setState({password: newPassword})
+        this.handlePasswordChange(newPassword)
     }
 
     handlePasswordChange(e) {
-        const result = zxcvbn(e.target.value)
-        this.setState({password: e.target.value, score: result.score})
+        const result = zxcvbn(e)
+        this.setState({password: e, score: result.score})
     }
 
     render() {
@@ -39,7 +39,7 @@ class Password extends Component {
                 </div>
                 <div>
                     <input
-                        onChange={this.handlePasswordChange.bind(this)}
+                        onChange={(e) => this.handlePasswordChange(e.target.value)}
                         value={this.state.password}
                     />
                 </div>
